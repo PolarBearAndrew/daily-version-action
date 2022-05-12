@@ -83,32 +83,8 @@ async function init() {
 		core.setOutput('version', process.env.GITHUB_REF.replace('refs/tags/', ''));
 		core.info(
 			'Run triggered by tag `' +
-        pushedTag +
-        '`. No new tags will be created by `daily-version-action`.'
-		);
-		return;
-	}
-
-	// Look for tags on the current commit
-	await execFile('git', [
-		'fetch',
-		'--depth=1',
-		'origin',
-		'refs/tags/*:refs/tags/*'
-	]);
-	const {stdout: tagsOnHead} = await execFile('git', [
-		'tag',
-		'-l',
-		'--points-at',
-		'HEAD'
-	]);
-	if (tagsOnHead) {
-		const [mostRecentTag] = tagsOnHead.split('\n'); // `stdout` may contain multiple tags
-		core.setOutput('version', mostRecentTag);
-		core.info(
-			'No new commits since the last tag (' +
-        mostRecentTag +
-        '). No new tags will be created by `daily-version-action`.'
+			pushedTag +
+			'`. No new tags will be created by `daily-version-action`.'
 		);
 		return;
 	}
